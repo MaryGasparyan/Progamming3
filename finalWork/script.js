@@ -1,3 +1,10 @@
+var LivingCrature = require("./LivingCrature");
+var Grass = require("./Grass");
+var GrassEater = require("./GrassEater");
+var Predator = require("./Pedator");
+var Rock = require("./Rock");
+var Magician = require("./Magician");
+
 
 function generate(matLen,gr,grEt=3,pred=2,rck=2,mag=1) {
     var matrix = [];
