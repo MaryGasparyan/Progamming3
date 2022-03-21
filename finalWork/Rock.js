@@ -1,28 +1,11 @@
-var LivingCrature = require("./LivingCrature");
-var Predator = require("./Pedator");
+var LivingCreature = require("./LivingCrature");
 
 module.exports = class Rock extends LivingCreature {
-    getNewCoordinates() {
-        this.directions = [
-            [this.x - 1, this.y - 1],
-            [this.x, this.y - 1],
-            [this.x + 1, this.y - 1],
-            [this.x - 1, this.y],
-            [this.x + 1, this.y],
-            [this.x - 1, this.y + 1],
-            [this.x, this.y + 1],
-            [this.x + 1, this.y + 1]
-        ];
-    }
-    chooseCell(character) {
-        this.getNewCoordinates()
-        return super.chooseCell(character);
-    }
     eat() {
-        let foods = this.chooseCell(3)
+        let foods = super.chooseCell(3);
         if (rockArr.length < predatorArr.length) {
             if (foods.length != 0) {
-                let randomFoods = random(foods)
+                let randomFoods = foods[Math.floor(Math.random() * foods.length)]
                 let x = randomFoods[0]
                 let y = randomFoods[1]
                 matrix[y][x] = 4
