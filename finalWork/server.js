@@ -9,62 +9,13 @@ app.get('/', function (req, res) {
 });
 server.listen(3000);
 
-function generate(matLen, gr, grEt = 3, pred = 2, rck = 2, mag = 1) {
-   var matrix = [];
-   for (let i = 0; i < matLen; i++) {
-      matrix[i] = []
-      for (let j = 0; j < matLen; j++) {
-         matrix[i][j] = 0
-
-      }
-   }
-   for (let i = 0; i < gr; i++) {
-      let x = Math.floor(Math.random() * matLen)
-      let y = Math.floor(Math.random() * matLen)
-      if (matrix[y][x] == 0) {
-         matrix[y][x] = 1
-      }
-   }
-   for (let i = 0; i < grEt; i++) {
-      let x = Math.floor(Math.random() * matLen)
-      let y = Math.floor(Math.random() * matLen)
-      if (matrix[y][x] == 0) {
-         matrix[y][x] = 2
-      }
-   }
-   for (let i = 0; i < pred; i++) {
-      let x = Math.floor(Math.random() * matLen)
-      let y = Math.floor(Math.random() * matLen)
-      if (matrix[y][x] == 0) {
-         matrix[y][x] = 3
-      }
-   }
-   for (let i = 0; i < rck; i++) {
-      let x = Math.floor(Math.random() * matLen)
-      let y = Math.floor(Math.random() * matLen)
-      if (matrix[y][x] == 0) {
-         matrix[y][x] = 4
-      }
-   }
-   for (let i = 0; i < mag; i++) {
-      let x = Math.floor(Math.random() * matLen)
-      let y = Math.floor(Math.random() * matLen)
-      if (matrix[y][x] == 0) {
-         matrix[y][x] = 5
-      }
-   }
-   return matrix
-}
-console.log()
-let matrix = generate(25, 100, 80, 50, 10, 5)
-
-io.sockets.emit('send matrix', matrix)
-
 var grassArr = []
 var grassEaterArr = []
 var predatorArr = []
 var rockArr = []
 var magArr = []
+var matrix = []
+var n = 50;
 
 var Grass = require("./Grass");
 var GrassEater = require("./GrassEater");
@@ -72,6 +23,19 @@ var Predator = require("./Predator");
 var Rock = require("./Rock");
 var Magician = require("./Magician");
 
+function rand(min, max) {
+   return Math.random() * (max - min) + min;
+}
+
+for (let i = 0; i < n; i++) {
+   matrix[i] = [];
+   for (let j = 0; j < n; j++) {
+      matrix[i][j] = Math.floor(rand(0, 6))
+
+   }
+}
+
+io.sockets.emit("send matrix", matrix)
 
 function createObject(matrix) {
    for (let y = 0; y < matrix.length; y++) {
@@ -122,6 +86,81 @@ function game() {
 
 setInterval(game, 1000)
 
+function kill() {
+   grassArr = [];
+   grassEaterArr = []
+   predatorArr = []
+   rockArr = []
+   magArr = []
+   for (var y = 0; y < matrix.length; y++) {
+      for (var x = 0; x < matrix[y].length; x++) {
+         matrix[y][x] = 0;
+      }
+   }
+   io.sockets.emit("send matrix", matrix);
+}
+function addGrass() {
+   for (var i = 0; i < 7; i++) {
+   var x = Math.floor(Math.random() * matrix[0].length)
+   var y = Math.floor(Math.random() * matrix.length)
+       if (matrix[y][x] == 0) {
+           matrix[y][x] = 1
+           var gr = new Grass(x, y, 1)
+           grassArr.push(gr)
+       }
+   }
+   io.sockets.emit("send matrix", matrix);
+}
+function addGrassEater() {
+   for (var i = 0; i < 7; i++) {   
+   var x = Math.floor(Math.random() * matrix[0].length)
+   var y = Math.floor(Math.random() * matrix.length)
+       if (matrix[y][x] == 0) {
+           matrix[y][x] = 2
+           grassEaterArr.push(new GrassEater(x, y, 2))
+       }
+   }
+   io.sockets.emit("send matrix", matrix);
+}
+function addPredator() {
+   for (var i = 0; i < 7; i++) {   
+   var x = Math.floor(Math.random() * matrix[0].length)
+   var y = Math.floor(Math.random() * matrix.length)
+       if (matrix[y][x] == 0) {
+           matrix[y][x] = 3
+           predatorArr.push(new Predator(x, y))
+       }
+   }
+   io.sockets.emit("send matrix", matrix);
+}
+function addRock() {
+   for (var i = 0; i < 7; i++) {   
+   var x = Math.floor(Math.random() * matrix[0].length)
+   var y = Math.floor(Math.random() * matrix.length)
+       if (matrix[y][x] == 0) {
+           matrix[y][x] = 4
+           rockArr.push(new Rock(x, y))
+       }
+   }
+   io.sockets.emit("send matrix", matrix);
+}
+function addMagician() {
+   for (var i = 0; i < 7; i++) {   
+   var x = Math.floor(Math.random() * matrix[0].length)
+   var y = Math.floor(Math.random() * matrix.length)
+       if (matrix[y][x] == 0) {
+           matrix[y][x] = 5
+           magArr.push(new Magician(x, y))
+       }
+   }
+   io.sockets.emit("send matrix", matrix);
+}
 io.on('connection', function (socket) {
-   createObject(matrix)
-})
+   createObject();
+   socket.on("kill", kill);
+   socket.on("add grass", addGrass);
+   socket.on("add grassEater", addGrassEater);
+   socket.on("add predator", addPredator);
+   socket.on("add rock",addRock)
+   socket.on("add magician", addMagician)
+});

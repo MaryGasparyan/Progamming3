@@ -1,15 +1,13 @@
 var socket =io()
-
-var side = 25;
+var side = 10;
 function setup() {
     frameRate(5);
-    createCanvas(matrix[0].length * side, matrix.length * side);
+    createCanvas(50 * side, 50 * side);
     background('#acacac');
 }
-function draw() {
+function nkarel(matrix) {
     for (var y = 0; y < matrix.length; y++) {
-        for (var x = 0; x < matrix[y].length; x++) {
-            
+        for (var x = 0; x < matrix[0].length; x++) {
             if (matrix[y][x] == 1) {
                 fill("green");
             }
@@ -32,5 +30,24 @@ function draw() {
         }
     }
 }
-io.sockets.on("send matrix", draw);
+console.log("exav")
+socket.on('send matrix', nkarel)
+function kill() {
+    socket.emit("kill")
+}
+function addGrass() {
+    socket.emit("add grass")
+}
+function addGrassEater() {
+    socket.emit("add grassEater")
+}
+function addPredator() {
+    socket.emit("add predator")
+}
+function addRock() {
+    socket.emit("add rock")
+}
+function addMagician() {
+    socket.emit("add magician")
+}
 
