@@ -1,6 +1,9 @@
-var LivingCreature = require("./LivingCrature");
+var LivingCrature = require("./LivingCrature");
 
-module.exports = class Rock extends LivingCreature {
+module.exports = class Rock extends LivingCrature {
+    constructor(x, y) {
+        super(x, y);
+    }
     eat() {
         let foods = super.chooseCell(3);
         if (rockArr.length < predatorArr.length) {

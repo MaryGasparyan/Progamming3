@@ -1,4 +1,4 @@
-var socket =io()
+var socket = io()
 var side = 10;
 function setup() {
     frameRate(5);
@@ -6,6 +6,7 @@ function setup() {
     background('#acacac');
 }
 function nkarel(matrix) {
+
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[0].length; x++) {
             if (matrix[y][x] == 1) {
@@ -30,8 +31,8 @@ function nkarel(matrix) {
         }
     }
 }
-console.log("exav")
 socket.on('send matrix', nkarel)
+
 function kill() {
     socket.emit("kill")
 }

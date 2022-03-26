@@ -1,15 +1,14 @@
-
-
-module.exports = class LivingCreature {
-    constructor(x, y, index) {
+module.exports = class LivingCrature {
+	constructor(x, y, index) {
 		this.x = x;
 		this.y = y;
 		this.index = index;
 		this.multiply = 0;
-		
+
+
 	}
 
-	getNewDirections(){
+	getNewDirections() {
 		this.directions = [
 			[this.x - 1, this.y - 1],
 			[this.x, this.y - 1],
@@ -21,7 +20,7 @@ module.exports = class LivingCreature {
 			[this.x + 1, this.y + 1]
 		];
 	}
-	
+
 	chooseCell(num) {
 		this.getNewDirections()
 		var found = [];

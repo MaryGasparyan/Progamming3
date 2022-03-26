@@ -1,6 +1,6 @@
-var LivingCreature = require("./LivingCrature");
+var LivingCrature = require("./LivingCrature");
 
-module.exports = class GrassEater extends LivingCreature {
+module.exports = class GrassEater extends LivingCrature {
     constructor(x, y) {
         super(x, y);
         this.energy = 10;

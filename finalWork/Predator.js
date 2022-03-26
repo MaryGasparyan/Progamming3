@@ -1,12 +1,11 @@
-var LivingCreature = require("./LivingCrature");
+var LivingCrature = require("./LivingCrature");
 
-module.exports = class Predator extends LivingCreature {
+module.exports = class Predator extends LivingCrature {
     constructor(x, y) {
         super(x, y);
         this.energy = 20;
     }
     mul() {
-        console.log("Yee")
         let emptyCell = super.chooseCell(0);
         let newCell = emptyCell[Math.floor(Math.random() * emptyCell.length)]
         if (newCell) {

@@ -1,9 +1,12 @@
-var LivingCreature = require("./LivingCrature");
+var LivingCrature = require("./LivingCrature");
 var Grass = require("./Grass");
 var GrassEater = require("./GrassEater");
 var Predator = require("./Predator");
 
-module.exports = class Magician extends LivingCreature {
+module.exports = class Magician extends LivingCrature {
+    constructor(x, y) {
+        super(x, y);
+    }
     move() {
         let emptyCell = super.chooseCell(0);
         let newCell = emptyCell[Math.floor(Math.random() * emptyCell.length)]
