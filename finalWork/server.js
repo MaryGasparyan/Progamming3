@@ -7,7 +7,7 @@ app.use(express.static("."));
 app.get('/', function (req, res) {
    res.redirect('index.html');
 });
-server.listen(5000);
+server.listen(3000);
 
 grassArr = []
 grassEaterArr = []
@@ -156,6 +156,10 @@ function addMagician() {
    }
    io.sockets.emit("send matrix", matrix);
 }
+function changeWheather(){
+   let wh = 0;
+
+}
 io.on('connection', function (socket) {
    createObject();
    socket.on("kill", kill);
@@ -165,3 +169,16 @@ io.on('connection', function (socket) {
    socket.on("add rock", addRock)
    socket.on("add magician", addMagician)
 });
+
+var statistics = {};
+
+setInterval(function() {
+    statistics.grass = grassArr.length;
+    statistics.grassEater = grassEaterArr.length;
+    statistics.predator = predatorArr.length;
+    statistics.rock = rockArr.length;
+    statistics.mag = magArr.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
+        console.log("send")
+    })
+},1000)
