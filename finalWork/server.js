@@ -16,7 +16,18 @@ rockArr = []
 magArr = []
 matrix = []
 n = 50;
-
+weat = "winter"
+weather = ["winter", "spring", "summer", "autumn"]
+function weather(){
+   if(weat == "winter")
+      weat = "spring"
+   else if(weat == "spring")
+      weat = "summer"
+   else if(weat == "summer")
+      weat = "autumn"
+   else if(weat == "autumn")
+      weat = "winter"
+}
 LivingCrature = require("./LivingCrature")
 Grass = require("./Grass");
 GrassEater = require("./GrassEater");
@@ -156,10 +167,7 @@ function addMagician() {
    }
    io.sockets.emit("send matrix", matrix);
 }
-function changeWheather(){
-   let wh = 0;
 
-}
 io.on('connection', function (socket) {
    createObject();
    socket.on("kill", kill);
@@ -172,13 +180,13 @@ io.on('connection', function (socket) {
 
 var statistics = {};
 
-setInterval(function() {
-    statistics.grass = grassArr.length;
-    statistics.grassEater = grassEaterArr.length;
-    statistics.predator = predatorArr.length;
-    statistics.rock = rockArr.length;
-    statistics.mag = magArr.length;
-    fs.writeFile("statistics.json", JSON.stringify(statistics), function(){
-        console.log("send")
-    })
-},1000)
+setInterval(function () {
+   statistics.grass = grassArr.length;
+   statistics.grassEater = grassEaterArr.length;
+   statistics.predator = predatorArr.length;
+   statistics.rock = rockArr.length;
+   statistics.mag = magArr.length;
+   fs.writeFile("statistics.json", JSON.stringify(statistics), function () {
+      console.log("send")
+   })
+}, 1000)

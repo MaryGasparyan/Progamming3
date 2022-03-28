@@ -1,16 +1,27 @@
 var socket = io()
 var side = 10;
+var weather = "winter"
 function setup() {
     frameRate(5);
     createCanvas(50 * side, 50 * side);
     background('#acacac');
+}
+var cl = 0
+function changeWeather() {
+    cl++
 }
 function nkarel(matrix) {
 
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[0].length; x++) {
             if (matrix[y][x] == 1) {
-                fill("green");
+                if (c % 2 != 0) {
+                    fill("#80F3CD")
+                }
+                else {
+                    fill("green");
+                }
+
             }
             else if (matrix[y][x] == 2) {
                 fill("yellow");
